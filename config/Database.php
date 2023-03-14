@@ -1,21 +1,21 @@
 <?php
 class Database
 {
-    private $host = 'localhost';
-    private $port = '5432';
-    private $dbname = 'quotesdb';
-    private $username = 'postgres';
-    private $password = 'postgres';
+    private $host;
+    private $port;
+    private $dbname;
+    private $username;
+    private $password;
     private $conn;
 
-    /*public function __construct()
+    public function __construct()
     {
-    $this->username = getenv('USERNAME');
-    $this->password = getenv('PASSWORD');
-    $this->dbname = getenv('DBNAME');
-    $this->host = getenv('HOST');
-    $this->port = getenv('PORT');
-    }*/
+        $this->username = getenv('USERNAME');
+        $this->password = getenv('PASSWORD');
+        $this->dbname = getenv('DBNAME');
+        $this->host = getenv('HOST');
+        $this->port = getenv('PORT');
+    }
 
     public function connect()
     {
