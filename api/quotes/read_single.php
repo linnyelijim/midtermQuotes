@@ -34,11 +34,19 @@ if (isset($_GET['id'])) {
 if (isset($_GET['author_id']) !== null) {
     $quotes->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
     $quotes_arr = $quotes->read_single();
+} else {
+    echo json_encode(
+        array('message' => 'author_id Not Found')
+    );
 }
 
-if (isset($_GET['category_id'])) {
+if (isset($_GET['category_id']) !== null) {
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
     $quotes_arr = $quotes->read_single();
+} else {
+    echo json_encode(
+        array('message' => 'category_id Not Found')
+    );
 }
 
 if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
