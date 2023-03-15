@@ -43,7 +43,7 @@ class Quotes
         return $stmt;
     }
 
-    // Read single author
+    // Read single quote
 
     public function read_single()
     {
@@ -79,6 +79,7 @@ class Quotes
                 $this->author = $row['author'];
                 $this->category = $row['category'];
             }
+            return $row;
         }
 
         if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
@@ -207,7 +208,7 @@ class Quotes
         }
     }
 
-    // Create author
+    // Create quote
 
     public function create()
     {
@@ -245,7 +246,7 @@ class Quotes
         }
     }
 
-    // Update author
+    // Update quote
 
     public function update()
     {
@@ -275,7 +276,6 @@ class Quotes
         printf("Error: %s.\n", $stmt->error);
         return false;
 
-        echo $query;
     }
 
     // Delete author
