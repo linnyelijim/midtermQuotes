@@ -58,8 +58,9 @@ class Categories
 
     public function create()
     {
-        $query = 'INSERT INTO ' .
-            $this->table . '(category)
+        $query = 'INSERT INTO '
+            . $this->table .
+            '(category)
 			VALUES(
 				 :category)';
 
@@ -79,8 +80,8 @@ class Categories
 
     public function update()
     {
-        $query = 'UPDATE ' .
-            $this->table .
+        $query = 'UPDATE '
+            . $this->table .
             'SET
 				category = :category
 			WHERE
@@ -99,15 +100,15 @@ class Categories
         printf("Error: %s.\n", $stmt->error);
         return false;
 
-
+        echo $query;
     }
 
     // Delete category
 
     public function delete()
     {
-        $query = 'DELETE FROM ' .
-            $this->table .
+        $query = 'DELETE FROM '
+            . $this->table .
             ' WHERE id = :id';
 
         $stmt = $this->conn->prepare($query);

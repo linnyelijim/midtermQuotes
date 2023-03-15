@@ -59,8 +59,9 @@ class Authors
 
     public function create()
     {
-        $query = 'INSERT INTO ' .
-            $this->table . '(author)
+        $query = 'INSERT INTO '
+            . $this->table .
+            '(author)
 			VALUES(
 				 :author)';
 
@@ -80,9 +81,9 @@ class Authors
 
     public function update()
     {
-        $query = 'UPDATE ' .
-            $this->table . '
-			SET
+        $query = 'UPDATE '
+            . $this->table .
+            'SET
 				author = :author
 			WHERE
 				id = :id';
@@ -102,14 +103,16 @@ class Authors
         printf("Error: %s.\n", $stmt->error);
         return false;
 
+        echo $query;
+
     }
 
     // Delete author
 
     public function delete()
     {
-        $query = 'DELETE FROM ' .
-            $this->table .
+        $query = 'DELETE FROM '
+            . $this->table .
             ' WHERE id = :id';
 
         $stmt = $this->conn->prepare($query);

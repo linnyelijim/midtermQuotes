@@ -16,7 +16,7 @@ $num = $result->rowCount();
 
 if ($num > 0) {
     $author_arr = array();
-    $author_arr = array();
+    $author_item = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);

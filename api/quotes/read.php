@@ -16,7 +16,7 @@ $num = $result->rowCount();
 
 if ($num > 0) {
     $quote_arr = array();
-    $quote_arr = array();
+    $quote_item = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);

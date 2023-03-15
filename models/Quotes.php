@@ -16,7 +16,7 @@ class Quotes
         $this->conn = $db;
     }
 
-    // Read all quotes
+    // Read quotes
 
     public function read_quotes()
     {
@@ -211,8 +211,8 @@ class Quotes
 
     public function create()
     {
-        $query = 'INSERT INTO ' .
-            $this->table . '(quote, author_id, category_id)
+        $query = 'INSERT INTO '
+            . $this->table . '(quote, author_id, category_id)
 			VALUES(
 				 :quote, :author_id, :category_id)';
 
@@ -249,8 +249,8 @@ class Quotes
 
     public function update()
     {
-        $query = 'UPDATE ' .
-            $this->table .
+        $query = 'UPDATE '
+            . $this->table .
             'SET
 				quote = :quote,
 				author_id = :author_id,
@@ -275,15 +275,15 @@ class Quotes
         printf("Error: %s.\n", $stmt->error);
         return false;
 
-
+        echo $query;
     }
 
     // Delete author
 
     public function delete()
     {
-        $query = 'DELETE FROM ' .
-            $this->table .
+        $query = 'DELETE FROM '
+            . $this->table .
             ' WHERE id = :id';
 
         $stmt = $this->conn->prepare($query);
