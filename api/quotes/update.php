@@ -14,9 +14,22 @@ $quotes = new Quotes($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (!isset($data->id) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+if (!isset($data->id) || !isset($data->quote)) {
     echo json_encode(
         array('message' => 'Missing Required Parameters')
+    );
+    exit();
+}
+
+if (!isset($data->author_id)) {
+    echo json_encode(
+        array('message' => 'author_id Not Found')
+    );
+    exit();
+}
+if (!isset($data->category_id)) {
+    echo json_encode(
+        array('message' => 'category_id Not Found')
     );
     exit();
 }
@@ -30,7 +43,7 @@ if ($quotes->update()) {
     echo json_encode(
         array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id)
     );
-} else if (empty($quotes->quote)) {
+} else {
     echo json_encode(
         array('message' => 'No Quotes Found')
     );
