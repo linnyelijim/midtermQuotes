@@ -14,7 +14,7 @@ class Categories
 
     // Read all categories
 
-    public function display_categories()
+    public function read()
     {
         $query = 'SELECT
 				id,
