@@ -34,17 +34,23 @@ if (isset($_GET['id'])) {
 if (isset($_GET['author_id'])) {
     $quotes->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
     $quotes_arr = $quotes->read_single();
+
+    echo json_encode($quotes_arr);
 }
 
 if (isset($_GET['category_id'])) {
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
     $quotes_arr = $quotes->read_single();
+
+    echo json_encode($quotes_arr);
 }
 
 if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
     $quotes->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
-    $quotes->read_single();
+    $quotes_arr = $quotes->read_single();
+
+    echo json_encode($quotes_arr);
 }
 
-echo json_encode($quotes_arr);
+
 ?>
