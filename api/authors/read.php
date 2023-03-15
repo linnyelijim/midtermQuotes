@@ -10,7 +10,7 @@ $db = $database->connect();
 
 $authors = new Authors($db);
 
-$result = $authors->read();
+$result = $authors->read_authors();
 
 $num = $result->rowCount();
 

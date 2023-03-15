@@ -10,7 +10,7 @@ $db = $database->connect();
 
 $categories = new Categories($db);
 
-$result = $categories->display_categories();
+$result = $categories->read_categories();
 
 $num = $result->rowCount();
 

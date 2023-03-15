@@ -10,7 +10,7 @@ $db = $database->connect();
 
 $quotes = new Quotes($db);
 
-$result = $quotes->display_quotes();
+$result = $quotes->read_quotes();
 
 $num = $result->rowCount();
 

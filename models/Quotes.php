@@ -18,7 +18,7 @@ class Quotes
 
     // Read all quotes
 
-    public function display_quotes()
+    public function read_quotes()
     {
         $query = 'SELECT
 				quotes.id,

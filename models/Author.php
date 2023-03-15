@@ -15,7 +15,7 @@ class Authors
 
     // Read all authors
 
-    public function read()
+    public function read_authors()
     {
         $query = 'SELECT
 				id,
