@@ -146,7 +146,7 @@ class Quotes
 				ORDER BY quotes.id';
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':author_id', $this->id);
+            $stmt->bindParam(':author_id', $this->author_id);
             $stmt->execute();
 
             $quotes = [];
@@ -185,7 +185,7 @@ class Quotes
 				ORDER BY quotes.id';
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':category_id', $this->id);
+            $stmt->bindParam(':category_id', $this->category_id);
             $stmt->execute();
 
             $quotes = [];
