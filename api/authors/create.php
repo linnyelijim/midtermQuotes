@@ -21,6 +21,8 @@ if (!isset($data->author)) {
     exit();
 }
 
+
+
 $authors->author = $data->author;
 
 if ($authors->create()) {
