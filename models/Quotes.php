@@ -80,9 +80,7 @@ class Quotes
                 $this->category = $row['category'];
             }
             return $row;
-        }
-
-        if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
+        } else if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
             $query = 'SELECT
 					quotes.id,
 					quotes.quote,
@@ -124,10 +122,8 @@ class Quotes
                 ];
             }
 
-
-        }
-
-        if (isset($_GET['author_id'])) {
+            return $quotes;
+        } else if (isset($_GET['author_id'])) {
             $query = 'SELECT
 					quotes.id,
 					quotes.quote,
@@ -164,10 +160,8 @@ class Quotes
                 ];
             }
 
-
-        }
-
-        if (isset($_GET['category_id'])) {
+            return $quotes;
+        } else if (isset($_GET['category_id'])) {
             $query = 'SELECT
 					quotes.id,
 					quotes.quote,
@@ -204,9 +198,12 @@ class Quotes
                 ];
             }
 
-
+            return $quotes;
+        } else {
+            echo json_encode(
+                array('message' => 'No Quotes Found')
+            );
         }
-        return $quotes;
     }
 
     // Create quote
