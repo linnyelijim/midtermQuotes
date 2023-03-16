@@ -123,7 +123,7 @@ class Quotes
                 ];
             }
 
-
+            echo json_encode($quotes);
         }
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
@@ -162,7 +162,7 @@ class Quotes
                 ];
             }
 
-
+            echo json_encode($quotes);
         }
         if (isset($_GET['category_id'])) {
             $query = 'SELECT
@@ -201,7 +201,7 @@ class Quotes
                 ];
             }
 
-
+            echo json_encode($quotes);
         }
     }
 
