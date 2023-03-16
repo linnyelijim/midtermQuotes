@@ -100,7 +100,6 @@ class Categories
         printf("Error: %s.\n", $stmt->error);
         return false;
 
-        echo $query;
     }
 
     // Delete category

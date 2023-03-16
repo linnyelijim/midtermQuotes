@@ -124,7 +124,7 @@ class Quotes
                 ];
             }
 
-            return $quotes;
+
         }
 
         if (isset($_GET['author_id'])) {
@@ -164,7 +164,7 @@ class Quotes
                 ];
             }
 
-            return $quotes;
+
         }
 
         if (isset($_GET['category_id'])) {
@@ -204,8 +204,9 @@ class Quotes
                 ];
             }
 
-            return $quotes;
+
         }
+        return $quotes;
     }
 
     // Create quote
