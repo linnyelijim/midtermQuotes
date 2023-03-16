@@ -123,7 +123,7 @@ class Quotes
                 ];
             }
 
-            echo json_encode($quotes);
+            return $quotes;
         }
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
@@ -142,11 +142,11 @@ class Quotes
 				ON
 					quotes.category_id = categories.id
 				WHERE
-					quotes.author_id = :id
+					quotes.author_id = :author_id
 				ORDER BY quotes.id';
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $this->id);
+            $stmt->bindParam(':author_id', $this->id);
             $stmt->execute();
 
             $quotes = [];
@@ -162,7 +162,7 @@ class Quotes
                 ];
             }
 
-            echo json_encode($quotes);
+            return $quotes;
         }
         if (isset($_GET['category_id'])) {
             $query = 'SELECT
@@ -181,11 +181,11 @@ class Quotes
 				ON
 					quotes.category_id = categories.id
 				WHERE
-					quotes.category_id = :id
+					quotes.category_id = :category_id
 				ORDER BY quotes.id';
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $this->id);
+            $stmt->bindParam(':category_id', $this->id);
             $stmt->execute();
 
             $quotes = [];
@@ -201,7 +201,7 @@ class Quotes
                 ];
             }
 
-            echo json_encode($quotes);
+            return $quotes;
         }
     }
 
