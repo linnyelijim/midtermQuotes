@@ -1,1 +1,5 @@
 .htaccess
+authorsquery.sql
+categoriesquery.sql
+quotesquery.sql
+quotesquery2.sql

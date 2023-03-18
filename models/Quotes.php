@@ -20,23 +20,11 @@ class Quotes
 
     public function read_quotes()
     {
-        $query = 'SELECT
-				quotes.id,
-				quotes.quote,
-				authors.author,
-				categories.category
-			FROM
-				' . $this->table . '
-			INNER JOIN
-				authors
-			ON
-				quotes.author_id = authors.id
-			INNER JOIN
-				categories
-			ON
-				quotes.category_id = categories.id
-			ORDER BY
-				id';
+        $query = "SELECT quotes.id, quotes.quote, authors.author, categories.category 
+			FROM $this->table
+			JOIN authors ON quotes.author_id = authors.id
+			JOIN categories ON quotes.category_id = categories.id
+			ORDER BY id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

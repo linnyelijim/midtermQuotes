@@ -7,11 +7,14 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 
+//Instantiate DB & connect
 $database = new Database();
 $db = $database->connect();
 
+//Instantiate blog post object
 $authors = new Authors($db);
 
+//Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
 if (!isset($data->author)) {

@@ -34,15 +34,23 @@ if (isset($_GET['id'])) {
 
 
 if (isset($_GET['author_id'])) {
-    $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
-    $quotes->read_single();
+    $quotes->author_id = $_GET['author_id'];
+    $quotes->read_quotes();
 
-    $quotes_arr = array(
-        'id' => $quotes->id,
-        'quote' => $quotes->quote,
-        'author' => $quotes->author_id,
-        'category' => $quotes->category_id
-    );
+    echo (json_encode($quotes));
+
+    $quotes_arr = array();
+
+    foreach ($quotes as $quote) {
+        echo ('count ');
+        echo ($quote);
+        $quotes_arr[] = array(
+            'id' => $quotes->id,
+            'quote' => $quotes->quote,
+            'author' => $quotes->author_id,
+            'category' => $quotes->category_id
+        );
+    }
 
     if ($quotes->quote !== null) {
         //Change to JSON data
@@ -57,7 +65,7 @@ if (isset($_GET['author_id'])) {
 
 if (isset($_GET['category_id'])) {
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
-    $quotes->read_single();
+    $quotes->read_quotes();
 
     $quotes_arr = array(
         'id' => $quotes->id,
@@ -79,7 +87,7 @@ if (isset($_GET['category_id'])) {
 if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
     $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
-    $quotes->read_single();
+    $quotes->read_quotes();
 
     if ($quotes->quote !== null) {
         //Change to JSON data

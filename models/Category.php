@@ -88,12 +88,19 @@ class Categories
 				id = :id';
 
         $stmt = $this->conn->prepare($query);
+
         $this->category = htmlspecialchars(strip_tags($this->category));
         $this->id = htmlspecialchars(strip_tags($this->id));
+
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
+            $count = $stmt->rowCount();
+            echo ($count);
+            if ($count === 0) {
+                return false;
+            }
             return true;
         }
 

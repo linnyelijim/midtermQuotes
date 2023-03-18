@@ -15,15 +15,15 @@ if ($method === 'OPTIONS') {
 if ($method === 'GET') {
     //Checking for URL parameter, like id=1
     if (isset($_GET['id'])) {
-        require('read_single.php'); //Read only specified
+        include_once 'read_single.php'; //Read only specified
     } else {
-        require('read.php'); //No parameter, read all 
+        include_once 'read.php'; //No parameter, read all 
     }
 } else if ($method === 'POST') {
-    require('create.php');
+    include_once 'create.php';
 } else if ($method === 'PUT') {
-    require('update.php');
+    include_once 'update.php';
 } else if ($method === 'DELETE') {
-    require('delete.php');
+    include_once 'delete.php';
 }
 ?>

@@ -81,12 +81,12 @@ class Authors
 
     public function update()
     {
-        $query = 'UPDATE '
-            . $this->table .
-            'SET
-				author = :author
-			WHERE
-				id = :id';
+        $query = 'UPDATE ' .
+            $this->table . '
+        SET
+			author = :author
+		    WHERE
+			id = :id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -97,6 +97,11 @@ class Authors
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
+            $count = $stmt->rowCount();
+            echo ($count);
+            if ($count === 0) {
+                return false;
+            }
             return true;
         }
 
