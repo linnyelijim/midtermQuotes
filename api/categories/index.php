@@ -1,26 +1,26 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
+//Keeps CORS from blocking automated tests
+header('Access-Control-Allow-Origin: *'); //Response can be shared with origin's requesting code
+header('Content-Type: application/json'); //Tells browser intended data type 
+$method = $_SERVER['REQUEST_METHOD']; //Gets HTTP request value
+
 
 //Getting URL that is being passed
 $uri = $_SERVER['REQUEST_URI'];
 
-//$idPassed = parse_url($uri, PHP_URL_QUERY);
-
 if ($method === 'OPTIONS') {
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE'); //Permitted methods
+    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With'); //Specifies what has access
     exit();
 }
 
 
 if ($method === 'GET') {
-    //checking URL if it has a query statement like id=1
+    //Checking for URL parameter, like id=1
     if (parse_url($uri, PHP_URL_QUERY)) {
-        require('read_single.php');
+        require('read_single.php'); //Read only specified
     } else {
-        require('read.php');
+        require('read.php'); //No parameter, read all 
     }
 } else if ($method === 'POST') {
     require('create.php');

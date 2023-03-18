@@ -112,6 +112,18 @@ class Quotes
 
             $quotes = [];
 
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                extract($row);
+
+                $quotes[] = [
+                    'id' => $id,
+                    'quote' => $quote,
+                    'author' => $author,
+                    'category' => $category
+                ];
+            }
+
+            return $quotes;
         }
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
@@ -139,6 +151,18 @@ class Quotes
 
             $quotes = [];
 
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                extract($row);
+
+                $quotes[] = [
+                    'id' => $id,
+                    'quote' => $quote,
+                    'author' => $author,
+                    'category' => $category
+                ];
+            }
+
+            return $quotes;
         }
         if (isset($_GET['category_id'])) {
             $query = 'SELECT
@@ -166,24 +190,19 @@ class Quotes
 
             $quotes = [];
 
-        }
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-            if ($quotes != null) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                extract($row);
+
                 $quotes[] = [
                     'id' => $id,
                     'quote' => $quote,
                     'author' => $author,
                     'category' => $category
                 ];
-                return $quotes;
-            } else {
-                echo json_encode(
-                    array('message' => 'No Quotes Found')
-                );
             }
-        }
 
+            return $quotes;
+        }
     }
 
     // Create quote
@@ -256,7 +275,7 @@ class Quotes
 
     }
 
-    // Delete author
+    // Delete quote
 
     public function delete()
     {

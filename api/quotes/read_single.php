@@ -31,20 +31,64 @@ if (isset($_GET['id'])) {
     }
 }
 
+
+
 if (isset($_GET['author_id'])) {
-    $quotes->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
-    $quotes_arr = $quotes->read_single();
+    $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
+    $quotes->read_single();
+
+    $quotes_arr = array(
+        'id' => $quotes->id,
+        'quote' => $quotes->quote,
+        'author' => $quotes->author_id,
+        'category' => $quotes->category_id
+    );
+
+    if ($quotes->quote !== null) {
+        //Change to JSON data
+        print_r(json_encode($quotes_arr, JSON_NUMERIC_CHECK));
+    } else {
+        echo json_encode(
+            array('message' => 'author_id Not Found')
+        );
+    }
+
 }
 
 if (isset($_GET['category_id'])) {
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
-    $quotes_arr = $quotes->read_single();
+    $quotes->read_single();
+
+    $quotes_arr = array(
+        'id' => $quotes->id,
+        'quote' => $quotes->quote,
+        'author' => $quotes->author_id,
+        'category' => $quotes->category_id
+    );
+
+    if ($quotes->quote !== null) {
+        //Change to JSON data
+        print_r(json_encode($quotes_arr));
+    } else {
+        echo json_encode(
+            array('message' => 'category_id Not Found')
+        );
+    }
 }
 
 if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
-    $quotes->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
+    $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
+    $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
     $quotes->read_single();
+
+    if ($quotes->quote !== null) {
+        //Change to JSON data
+        print_r(json_encode($quotes_arr, JSON_NUMERIC_CHECK));
+    } else {
+        echo json_encode(
+            array('message' => 'author_id or category_id Not Found')
+        );
+    }
 }
 
-echo json_encode($quotes_arr);
 ?>

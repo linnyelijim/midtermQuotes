@@ -6,7 +6,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 //Getting URL that is being passed
 $uri = $_SERVER['REQUEST_URI'];
 
-//$idPassed = parse_url($uri, PHP_URL_QUERY);
 
 if ($method === 'OPTIONS') {
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
