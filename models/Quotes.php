@@ -20,11 +20,19 @@ class Quotes
 
     public function read_quotes()
     {
-        $query = "SELECT quotes.id, quotes.quote, authors.author, categories.category 
-			FROM $this->table
-			JOIN authors ON quotes.author_id = authors.id
-			JOIN categories ON quotes.category_id = categories.id
-			ORDER BY id";
+        $query = 'SELECT 
+                quotes.id, quotes.quote, authors.author, categories.category 
+			FROM 
+                ' . $this->table . '
+			JOIN 
+                authors 
+            ON 
+                quotes.author_id = authors.id
+			JOIN 
+                categories 
+            ON 
+                quotes.category_id = categories.id
+			ORDER BY id';
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -198,14 +206,15 @@ class Quotes
     public function create()
     {
         $query = 'INSERT INTO '
-            . $this->table . '(quote, author_id, category_id)
+            . $this->table . '(id, quote, author_id, category_id)
 			VALUES(
-				 :quote, :author_id, :category_id)';
+				 :id, :quote, :author_id, :category_id)';
 
         $stmt = $this->conn->prepare($query);
         $this->quote = htmlspecialchars(strip_tags($this->quote));
         $this->author_id = htmlspecialchars(strip_tags($this->author_id));
         $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':quote', $this->quote);
         $stmt->bindParam(':author_id', $this->author_id);
         $stmt->bindParam(':category_id', $this->category_id);
@@ -217,18 +226,7 @@ class Quotes
         printf("Error: %s.\n", $stmt->error);
         return false;
 
-        if ($categories->category != null) {
-            $category_arr = array(
-                'id' => $categories->id,
-                'category' => $categories->category
-            );
 
-            echo json_encode($category_arr);
-        } else {
-            echo json_encode(
-                array('message' => 'category_id Not Found')
-            );
-        }
     }
 
     // Update quote
