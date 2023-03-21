@@ -14,8 +14,9 @@ $result = $authors->read_authors();
 
 $num = $result->rowCount();
 
+$no_author = ['message' => 'author_id Not Found'];
+
 if ($num > 0) {
-    $author_arr = array();
     $author_arr = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -31,8 +32,6 @@ if ($num > 0) {
 
     echo json_encode($author_arr);
 } else {
-    echo json_encode(
-        array('message' => 'No Authors Found')
-    );
+    echo json_encode($no_author);
 }
 ?>

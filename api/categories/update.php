@@ -14,23 +14,26 @@ $categories = new Categories($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
+$no_category = ['message' => 'category_id Not Found'];
+$not_updated = ['message' => 'Category Not updated'];
+$new_category = array('id' => $categories->id, 'category' => $categories->category);
+
 if (!isset($data->category)) {
-    echo json_encode(
-        array('message' => 'Missing Required Parameters')
-    );
+    echo json_encode($no_parameters);
     exit();
 }
 
 $categories->id = $data->id;
 $categories->category = $data->category;
 
-if ($categories->update()) {
-    echo json_encode(
-        array('id' => $categories->id, 'category' => $categories->category)
-    );
+if (!$categories->update()) {
+    echo json_encode($no_category);
+    exit();
+
+} else if ($categories->update()) {
+    echo json_encode($new_category);
+
 } else {
-    echo json_encode(
-        array('message' => 'No Category Found')
-    );
+    echo json_encode($not_updated);
 }
 ?>

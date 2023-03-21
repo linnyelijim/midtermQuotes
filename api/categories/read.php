@@ -14,8 +14,9 @@ $result = $categories->read_categories();
 
 $num = $result->rowCount();
 
+$no_category = ['message' => 'category_id Not Found'];
+
 if ($num > 0) {
-    $category_arr = array();
     $category_arr = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -31,8 +32,6 @@ if ($num > 0) {
 
     echo json_encode($category_arr);
 } else {
-    echo json_encode(
-        array('message' => 'No Category Found')
-    );
+    echo json_encode($no_category);
 }
 ?>

@@ -17,23 +17,27 @@ $authors = new Authors($db);
 //Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
+$no_parameters = ['message' => 'Missing Required Parameters'];
+$no_author = ['message' => 'author_id Not Found'];
+$new_author = array('id' => $authors->id, 'author' => $authors->author);
+$not_updated = ['message' => 'Authors Not Updated'];
+
 if (!isset($data->author)) {
-	echo json_encode(
-		array('message' => 'Missing Required Parameters')
-	);
+	echo json_encode($no_parameters);
 	exit();
 }
 
 $authors->id = $data->id;
 $authors->author = $data->author;
 
-if ($authors->update()) {
-	echo json_encode(
-		array('id' => $authors->id, 'author' => $authors->author)
-	);
+if (!$authors->update()) {
+	echo json_encode($no_author);
+	exit();
+
+} else if ($authors->update()) {
+	echo json_encode($new_author);
+
 } else {
-	echo json_encode(
-		array('message' => 'No Authors Found')
-	);
+	echo json_encode($not_updated);
 }
 ?>

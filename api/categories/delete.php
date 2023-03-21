@@ -1,27 +1,44 @@
 <?php
+//Headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
+//Include files
 include_once '../../config/Database.php';
 include_once '../../models/Category.php';
 
+//Instantiate database and connect
 $database = new Database();
 $db = $database->connect();
 
+//Instantiate category object
 $categories = new Categories($db);
 
+//Get raw data
 $data = json_decode(file_get_contents("php://input"));
+
+//Set id accordingly
 $categories->id = $data->id;
 
-if ($categories->delete()) {
-    echo json_encode(
-        array('id' => $categories->id)
-    );
+//Messages and array for responses
+$no_parameters = ['message' => 'Missing Required Parameters'];
+$no_category = ['message' => 'category_id Not Found'];
+$deleted_category = array('id' => $categories->id);
+
+//Validate required parameters
+if (!isset($data->id)) {
+    echo json_encode($no_parameters);
+    exit();
+}
+
+//If delete fails, no category else return deleted category id
+if (!$categories->delete()) {
+    echo json_encode($no_category);
+    exit();
+
 } else {
-    echo json_encode(
-        array('message' => 'No Quotes Found')
-    );
+    echo json_encode($deleted_category);
 }
 ?>

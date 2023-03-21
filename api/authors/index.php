@@ -1,23 +1,28 @@
 <?php
-//Keeps CORS from blocking automated tests
-header('Access-Control-Allow-Origin: *'); //Response can be shared with origin's requesting code
-header('Content-Type: application/json'); //Tells browser intended data type 
-$method = $_SERVER['REQUEST_METHOD']; //Gets HTTP request value
+//Headers
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
+//Gets HTTP request value
+$method = $_SERVER['REQUEST_METHOD'];
 
+//Getting URL that is being passed
+$uri = $_SERVER['REQUEST_URI'];
+
+//Declares permitted methods and access
 if ($method === 'OPTIONS') {
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE'); //Permitted methods
-    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With'); //Specifies what has access
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
     exit();
 }
 
-
+//Assigns methods to appropriate files
 if ($method === 'GET') {
-    //Checking for URL parameter, like id=1
-    if (isset($_GET['id'])) {
-        include_once 'read_single.php'; //Read only specified
+    //checking URL if it has a query statement like id=1
+    if (parse_url($uri, PHP_URL_QUERY)) {
+        include_once 'read_single.php';
     } else {
-        include_once 'read.php'; //No parameter, read all 
+        include_once 'read.php';
     }
 } else if ($method === 'POST') {
     include_once 'create.php';

@@ -6,14 +6,25 @@ class Categories
 
     public $id;
     public $category;
+    public $update_category;
+    public $update_id;
 
     public function __construct($db)
     {
         $this->conn = $db;
     }
 
-    // Read all categories
+    public function getTable()
+    {
+        return $this->table;
+    }
 
+    public function getConn()
+    {
+        return $this->conn;
+    }
+
+    // Read all categories
     public function read_categories()
     {
         $query = 'SELECT
@@ -22,7 +33,7 @@ class Categories
 			FROM
 				' . $this->table . '
 			ORDER BY
-				id';
+				id ASC';
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -39,11 +50,11 @@ class Categories
 			FROM
 				' . $this->table . '
 			WHERE
-				id = :id
-			LIMIT 1';
+				id = ?
+			LIMIT 1 OFFSET 0';
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(1, $this->id);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,7 +62,10 @@ class Categories
         if (is_array($row)) {
             $this->id = $row['id'];
             $this->category = $row['category'];
+
+            return true;
         }
+        return false;
     }
 
     // Create category
@@ -61,15 +75,16 @@ class Categories
         $query = 'INSERT INTO '
             . $this->table .
             '(category)
-			VALUES(
-				 :category)';
+			VALUES(:category)
+            RETURNING id';
 
         $stmt = $this->conn->prepare($query);
         $this->category = htmlspecialchars(strip_tags($this->category));
         $stmt->bindParam(':category', $this->category);
 
         if ($stmt->execute()) {
-            return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['id'];
         }
 
         printf("Error: %s.\n", $stmt->error);
@@ -95,13 +110,18 @@ class Categories
         $stmt->bindParam(':category', $this->category);
         $stmt->bindParam(':id', $this->id);
 
+        $new_category = array('category' => $this->update_category, 'id' => $this->update_id);
+
+
         if ($stmt->execute()) {
-            $count = $stmt->rowCount();
-            echo ($count);
-            if ($count === 0) {
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$row) {
                 return false;
             }
-            return true;
+            $this->update_category = $this->category;
+            $this->update_id = $this->id;
+
+            return json_encode($new_category);
         }
 
         printf("Error: %s.\n", $stmt->error);
@@ -115,7 +135,8 @@ class Categories
     {
         $query = 'DELETE FROM '
             . $this->table .
-            ' WHERE id = :id';
+            ' WHERE id = :id
+            RETURNING id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -124,7 +145,12 @@ class Categories
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
-            return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return $row['id'];
+            } else {
+                return false;
+            }
         }
 
         printf("Error: %s.\n", $stmt->error);

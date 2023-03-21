@@ -6,6 +6,8 @@ class Authors
 
     public $id;
     public $author;
+    public $update_author;
+    public $update_id;
 
     //Create a constructor 
     public function __construct($db)
@@ -13,8 +15,17 @@ class Authors
         $this->conn = $db;
     }
 
-    // Read all authors
+    public function getTable()
+    {
+        return $this->table;
+    }
 
+    public function getConn()
+    {
+        return $this->conn;
+    }
+
+    // Read all authors
     public function read_authors()
     {
         $query = 'SELECT
@@ -23,7 +34,7 @@ class Authors
 			FROM
 				' . $this->table . '
 			ORDER BY
-				id';
+				id ASC';
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -40,11 +51,11 @@ class Authors
 			FROM
 				' . $this->table . '
 			WHERE
-				id = :id
-			LIMIT 1';
+				id = ?
+			LIMIT 1 OFFSET 0';
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(1, $this->id);
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -52,7 +63,10 @@ class Authors
         if (is_array($row)) {
             $this->id = $row['id'];
             $this->author = $row['author'];
+
+            return true;
         }
+        return false;
     }
 
     // Create author
@@ -62,15 +76,16 @@ class Authors
         $query = 'INSERT INTO '
             . $this->table .
             '(author)
-			VALUES(
-				 :author)';
+		VALUES(:author)
+        RETURNING id';
 
         $stmt = $this->conn->prepare($query);
         $this->author = htmlspecialchars(strip_tags($this->author));
         $stmt->bindParam(':author', $this->author);
 
         if ($stmt->execute()) {
-            return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['id'];
         }
 
         printf("Error: %s.\n", $stmt->error);
@@ -81,11 +96,11 @@ class Authors
 
     public function update()
     {
-        $query = 'UPDATE ' .
-            $this->table . '
+        $query = 'UPDATE '
+            . $this->table . '
         SET
 			author = :author
-		    WHERE
+		WHERE
 			id = :id';
 
         $stmt = $this->conn->prepare($query);
@@ -96,13 +111,17 @@ class Authors
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':id', $this->id);
 
+        $new_author = array('author' => $this->update_author, 'id' => $this->update_id);
+
         if ($stmt->execute()) {
-            $count = $stmt->rowCount();
-            echo ($count);
-            if ($count === 0) {
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$row) {
                 return false;
             }
-            return true;
+            $this->update_author = $this->author;
+            $this->update_id = $this->id;
+
+            return json_encode($new_author);
         }
 
         printf("Error: %s.\n", $stmt->error);
@@ -116,7 +135,8 @@ class Authors
     {
         $query = 'DELETE FROM '
             . $this->table .
-            ' WHERE id = :id';
+            ' WHERE id = :id
+            RETURNING id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -125,7 +145,12 @@ class Authors
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
-            return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return $row['id'];
+            } else {
+                return false;
+            }
         }
 
         printf("Error: %s.\n", $stmt->error);

@@ -16,19 +16,31 @@ class Quotes
         $this->conn = $db;
     }
 
-    // Read quotes
+    public function getTable()
+    {
+        return $this->table;
+    }
 
+    public function getConn()
+    {
+        return $this->conn;
+    }
+
+    // Read quotes
     public function read_quotes()
     {
         $query = 'SELECT 
-                quotes.id, quotes.quote, authors.author, categories.category 
+                quotes.id, 
+                quotes.quote, 
+                authors.author, 
+                categories.category 
 			FROM 
                 ' . $this->table . '
-			JOIN 
+			INNER JOIN 
                 authors 
             ON 
                 quotes.author_id = authors.id
-			JOIN 
+			INNER JOIN 
                 categories 
             ON 
                 quotes.category_id = categories.id
@@ -61,7 +73,7 @@ class Quotes
 					quotes.category_id = categories.id
 				WHERE
 					quotes.id = :id
-				LIMIT 1';
+				LIMIT 1 OFFSET 0';
 
             $stmt = $this->conn->prepare($query);
 
@@ -106,27 +118,28 @@ class Quotes
             $stmt->bindParam(':category_id', $this->category_id);
             $stmt->execute();
 
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
             $quotes = [];
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
 
-                $quotes[] = [
-                    'id' => $id,
-                    'quote' => $quote,
-                    'author' => $author,
-                    'category' => $category
-                ];
+                if (is_array($row)) {
+                    $this->id = $row['id'];
+                    $this->quote = $row['quote'];
+                    $this->author = $row['author'];
+                    $this->category = $row['category'];
+                }
             }
 
-            return $quotes;
         }
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
 					quotes.id,
 					quotes.quote,
 					authors.author,
-					categories.category
+                    categories.category
 				FROM
 					' . $this->table . '
 				INNER JOIN
@@ -151,15 +164,16 @@ class Quotes
                 extract($row);
 
                 $quotes[] = [
-                    'id' => $id,
-                    'quote' => $quote,
-                    'author' => $author,
-                    'category' => $category
+                    $this->id = $row['id'],
+                    $this->quote = $row['quote'],
+                    $this->author = $row['author'],
+                    $this->category = $row['category']
                 ];
-            }
 
+            }
             return $quotes;
         }
+
         if (isset($_GET['category_id'])) {
             $query = 'SELECT
 					quotes.id,
@@ -188,15 +202,15 @@ class Quotes
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
-
-                $quotes[] = [
-                    'id' => $id,
-                    'quote' => $quote,
-                    'author' => $author,
-                    'category' => $category
-                ];
+                if (is_array($row)) {
+                    $quotes[] = [
+                        $this->id = $row['id'],
+                        $this->quote = $row['quote'],
+                        $this->author = $row['author'],
+                        $this->category = $row['category'],
+                    ];
+                }
             }
-
             return $quotes;
         }
     }
@@ -206,28 +220,31 @@ class Quotes
     public function create()
     {
         $query = 'INSERT INTO '
-            . $this->table . '(id, quote, author_id, category_id)
-			VALUES(
-				 :id, :quote, :author_id, :category_id)';
+            . $this->table .
+            '(quote, author_id, category_id)
+			VALUES(:quote, :author_id, :category_id)
+            RETURNING id, quote, author_id, category_id';
 
         $stmt = $this->conn->prepare($query);
-        $this->id = htmlspecialchars(strip_tags($this->id));
         $this->quote = htmlspecialchars(strip_tags($this->quote));
         $this->author_id = htmlspecialchars(strip_tags($this->author_id));
         $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':quote', $this->quote);
         $stmt->bindParam(':author_id', $this->author_id);
         $stmt->bindParam(':category_id', $this->category_id);
 
+
         if ($stmt->execute()) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->id = $row['id'];
+            $this->quote = $row['quote'];
+            $this->author_id = $row['author'];
+            $this->category_id = $row['category'];
             return true;
         }
 
         printf("Error: %s.\n", $stmt->error);
         return false;
-
-
     }
 
     // Update quote
@@ -237,7 +254,7 @@ class Quotes
         $query = 'UPDATE '
             . $this->table .
             'SET
-				quote = :quote,
+			    quote = :quote,
 				author_id = :author_id,
 				category_id = :category_id
 			WHERE
@@ -253,13 +270,15 @@ class Quotes
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
-        if ($stmt->execute()) {
+        $result = $stmt->rowCount > 0;
+
+        if ($stmt->execute() && $result) {
             return true;
+
         }
 
         printf("Error: %s.\n", $stmt->error);
         return false;
-
     }
 
     // Delete quote
@@ -276,12 +295,19 @@ class Quotes
 
         $stmt->bindParam(':id', $this->id);
 
-        if ($stmt->execute()) {
-            return true;
-        }
+        $result = $stmt->rowCount() > 0;
 
-        printf("Error: %s.\n", $stmt->error);
-        return false;
+        if ($stmt->execute()) {
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+
+            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
     }
 }
 ?>

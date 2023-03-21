@@ -14,6 +14,8 @@ $result = $quotes->read_quotes();
 
 $num = $result->rowCount();
 
+$no_quotes = ['message' => 'No Quotes Found'];
+
 if ($num > 0) {
     $quote_arr = array();
 
@@ -32,8 +34,6 @@ if ($num > 0) {
 
     echo json_encode($quote_arr);
 } else {
-    echo json_encode(
-        array('message' => 'No Quotes Found')
-    );
+    echo json_encode($no_quotes);
 }
 ?>
