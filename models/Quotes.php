@@ -294,7 +294,8 @@ class Quotes
     {
         $query = 'DELETE FROM '
             . $this->table .
-            ' WHERE id = :id';
+            ' WHERE id = :id
+            RETURNING id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -302,19 +303,18 @@ class Quotes
 
         $stmt->bindParam(':id', $this->id);
 
-        $result = $stmt->rowCount() > 0;
-
         if ($stmt->execute()) {
-            if ($result) {
-                return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return $row['id'];
             } else {
                 return false;
             }
-        } else {
 
-            printf("Error: %s.\n", $stmt->error);
-            return false;
         }
+        printf("Error: %s.\n", $stmt->error);
+        return false;
+
     }
 }
 ?>
