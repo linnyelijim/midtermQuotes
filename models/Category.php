@@ -97,7 +97,7 @@ class Categories
     {
         $query = 'UPDATE '
             . $this->table .
-            'SET
+            ' SET
 				category = :category
 			WHERE
 				id = :id';

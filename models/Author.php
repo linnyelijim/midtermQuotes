@@ -97,11 +97,11 @@ class Authors
     public function update()
     {
         $query = 'UPDATE '
-            . $this->table . '
-        SET
-			author = :author
-		WHERE
-			id = :id';
+            . $this->table .
+            ' SET
+			    author = :author
+		    WHERE
+			    id = :id';
 
         $stmt = $this->conn->prepare($query);
 
