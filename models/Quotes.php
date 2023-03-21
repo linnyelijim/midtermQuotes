@@ -228,8 +228,8 @@ class Quotes
     {
         $query = 'INSERT INTO '
             . $this->table .
-            '(quote, author_id, category_id)
-			VALUES(:quote, :author_id, :category_id)
+            ' (quote, author_id, category_id)
+			VALUES (:quote, :author_id, :category_id)
             RETURNING id, quote, author_id, category_id';
 
         $stmt = $this->conn->prepare($query);
@@ -260,7 +260,7 @@ class Quotes
     {
         $query = 'UPDATE '
             . $this->table .
-            'SET
+            ' SET
 			    quote = :quote,
 				author_id = :author_id,
 				category_id = :category_id
