@@ -53,20 +53,9 @@ if (isset($_GET['id'])) {
         }
     }
 
-    $quotes->read_single();
+    $quotes_arr = $quotes->read_single();
 
-    if ($quotes->quote !== null) {
-        $quotes_arr = array(
-            'id' => $quotes->id,
-            'quote' => $quotes->quote,
-            'author' => $quotes->author,
-            'category' => $quotes->category
-        );
-        //Output array else no quote
-        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
-    } else {
-        echo json_encode($no_quotes);
-    }
+    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
 
     //Get author_id, call to read quote with specified id, validates quote exists, creates array for output
 } else if (isset($_GET['author_id'])) {
@@ -77,20 +66,9 @@ if (isset($_GET['id'])) {
         exit();
     }
 
-    $quotes->read_single();
+    $quotes_arr = $quotes->read_single();
 
-    if ($quotes->quote !== null) {
-        $quotes_arr = array(
-            'id' => $quotes->id,
-            'quote' => $quotes->quote,
-            'author' => $quotes->author,
-            'category' => $quotes->category
-        );
-        //Output array else no quote
-        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
-    } else {
-        echo json_encode($no_quotes);
-    }
+    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
 
     //Get category_id, call to read quote with specified id, validates quote exists, creates array for output
 } else if (isset($_GET['category_id'])) {
@@ -101,20 +79,9 @@ if (isset($_GET['id'])) {
         exit();
     }
 
-    $quotes->read_single();
+    $quotes_arr = $quotes->read_single();
 
-    if ($quotes->quote !== null) {
-        $quotes_arr = array(
-            'id' => $quotes->id,
-            'quote' => $quotes->quote,
-            'author' => $quotes->author,
-            'category' => $quotes->category
-        );
-        //Output array else no quote
-        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
-    } else {
-        echo json_encode($no_quotes);
-    }
+    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
 
 }
 
