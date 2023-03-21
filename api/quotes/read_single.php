@@ -43,14 +43,13 @@ if (isset($_GET['id'])) {
     $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
 
-    if (!isValid($quotes->category_id, $quotes || !isValid($quotes->author_id, $quotes))) {
-        if (!isValid($quotes->category_id, $quotes)) {
-            echo json_encode($no_category);
-            exit();
-        } else if (!isValid($quotes->author_id, $quotes)) {
-            echo json_encode($no_author);
-            exit();
-        }
+
+    if (!isValid($quotes->category_id, $quotes)) {
+        echo json_encode($no_category);
+        exit();
+    } else if (!isValid($quotes->author_id, $quotes)) {
+        echo json_encode($no_author);
+        exit();
     }
 
     $quotes_arr = $quotes->read_single();

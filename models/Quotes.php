@@ -118,22 +118,25 @@ class Quotes
             $stmt->bindParam(':category_id', $this->category_id);
             $stmt->execute();
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $quotes = [];
+            $quotes_arr = array();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
-
                 if (is_array($row)) {
-                    $this->id = $row['id'];
-                    $this->quote = $row['quote'];
-                    $this->author = $row['author'];
-                    $this->category = $row['category'];
+                    $quote_item = array(
+                        'id' => $id,
+                        'quote' => $quote,
+                        'author' => $author,
+                        'category' => $category
+                    );
+
+                    array_push($quotes_arr, $quote_item);
                 }
             }
-
+            return $quotes_arr;
         }
+
+
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
 					quotes.id,
@@ -158,20 +161,22 @@ class Quotes
             $stmt->bindParam(':author_id', $this->author_id);
             $stmt->execute();
 
-            $quotes = [];
+            $quotes_arr = array();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 if (is_array($row)) {
-                    $quotes[] = [
-                        $this->id = $row['id'],
-                        $this->quote = $row['quote'],
-                        $this->author = $row['author'],
-                        $this->category = $row['category'],
-                    ];
+                    $quote_item = array(
+                        'id' => $id,
+                        'quote' => $quote,
+                        'author' => $author,
+                        'category' => $category
+                    );
+
+                    array_push($quotes_arr, $quote_item);
                 }
             }
-            return $quotes;
+            return $quotes_arr;
         }
 
         if (isset($_GET['category_id'])) {
@@ -198,20 +203,22 @@ class Quotes
             $stmt->bindParam(':category_id', $this->category_id);
             $stmt->execute();
 
-            $quotes = [];
+            $quotes_arr = array();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
                 if (is_array($row)) {
-                    $quotes[] = [
-                        $this->id = $row['id'],
-                        $this->quote = $row['quote'],
-                        $this->author = $row['author'],
-                        $this->category = $row['category'],
-                    ];
+                    $quote_item = array(
+                        'id' => $id,
+                        'quote' => $quote,
+                        'author' => $author,
+                        'category' => $category
+                    );
+
+                    array_push($quotes_arr, $quote_item);
                 }
             }
-            return $quotes;
+            return $quotes_arr;
         }
     }
 
