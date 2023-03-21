@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 //Include files
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
-include_once '../../functions/isVlaid.php';
+include_once '../../functions/isValid.php';
 
 //Instantiate database and connect
 $database = new Database();

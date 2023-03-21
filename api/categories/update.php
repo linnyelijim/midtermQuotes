@@ -14,6 +14,7 @@ $categories = new Categories($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
+$no_parameters = ['message' => 'Missing Required Parameters'];
 $no_category = ['message' => 'category_id Not Found'];
 $not_updated = ['message' => 'Category Not updated'];
 $new_category = array('id' => $categories->id, 'category' => $categories->category);
