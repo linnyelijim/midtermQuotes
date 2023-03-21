@@ -162,14 +162,14 @@ class Quotes
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 extract($row);
-
-                $quotes[] = [
-                    $this->id = $row['id'],
-                    $this->quote = $row['quote'],
-                    $this->author = $row['author'],
-                    $this->category = $row['category']
-                ];
-
+                if (is_array($row)) {
+                    $quotes[] = [
+                        $this->id = $row['id'],
+                        $this->quote = $row['quote'],
+                        $this->author = $row['author'],
+                        $this->category = $row['category'],
+                    ];
+                }
             }
             return $quotes;
         }

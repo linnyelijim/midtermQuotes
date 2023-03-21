@@ -36,4 +36,5 @@ if ($num > 0) {
 } else {
     echo json_encode($no_quotes);
 }
+
 ?>

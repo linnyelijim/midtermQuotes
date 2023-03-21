@@ -43,19 +43,30 @@ if (isset($_GET['id'])) {
     $quotes->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
     $quotes->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
 
-    if (!isValid($quotes->category_id, $quotes)) {
-        echo json_encode($no_category);
-        exit();
+    if (!isValid($quotes->category_id, $quotes || !isValid($quotes->author_id, $quotes))) {
+        if (!isValid($quotes->category_id, $quotes)) {
+            echo json_encode($no_category);
+            exit();
+        } else if (!isValid($quotes->author_id, $quotes)) {
+            echo json_encode($no_author);
+            exit();
+        }
     }
 
-    if (!isValid($quotes->author_id, $quotes)) {
-        echo json_encode($no_author);
-        exit();
+    $quotes->read_single();
+
+    if ($quotes->quote !== null) {
+        $quotes_arr = array(
+            'id' => $quotes->id,
+            'quote' => $quotes->quote,
+            'author' => $quotes->author,
+            'category' => $quotes->category
+        );
+        //Output array else no quote
+        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
+    } else {
+        echo json_encode($no_quotes);
     }
-
-    $quotes_arr = $quotes->read_single();
-
-    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
 
     //Get author_id, call to read quote with specified id, validates quote exists, creates array for output
 } else if (isset($_GET['author_id'])) {
@@ -66,9 +77,20 @@ if (isset($_GET['id'])) {
         exit();
     }
 
-    $quotes_arr = $quotes->read_single();
+    $quotes->read_single();
 
-    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
+    if ($quotes->quote !== null) {
+        $quotes_arr = array(
+            'id' => $quotes->id,
+            'quote' => $quotes->quote,
+            'author' => $quotes->author,
+            'category' => $quotes->category
+        );
+        //Output array else no quote
+        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
+    } else {
+        echo json_encode($no_quotes);
+    }
 
     //Get category_id, call to read quote with specified id, validates quote exists, creates array for output
 } else if (isset($_GET['category_id'])) {
@@ -79,9 +101,20 @@ if (isset($_GET['id'])) {
         exit();
     }
 
-    $quotes_arr = $quotes->read_single();
+    $quotes->read_single();
 
-    echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
+    if ($quotes->quote !== null) {
+        $quotes_arr = array(
+            'id' => $quotes->id,
+            'quote' => $quotes->quote,
+            'author' => $quotes->author,
+            'category' => $quotes->category
+        );
+        //Output array else no quote
+        echo json_encode($quotes_arr, JSON_NUMERIC_CHECK);
+    } else {
+        echo json_encode($no_quotes);
+    }
 
 }
 
