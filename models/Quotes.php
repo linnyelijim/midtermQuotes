@@ -294,9 +294,8 @@ class Quotes
             $this->update_category = $this->category;
             $this->update_id = $this->id;
 
-            $new_quote = array('quote' => $this->update_quote, 'author' => $this->update_author, 'category' => $this->update_category, 'id' => $this->update_id);
 
-            return json_encode($new_quote);
+            return true;
         }
 
         printf("Error: %s.\n", $stmt->error);
