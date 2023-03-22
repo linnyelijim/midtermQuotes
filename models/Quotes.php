@@ -283,18 +283,9 @@ class Quotes
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
+        $result = $stmt->rowCount() > 0;
 
-        if ($stmt->execute()) {
-            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (!$row) {
-                return false;
-            }
-            $this->update_quote = $this->quote;
-            $this->update_author = $this->author;
-            $this->update_category = $this->category;
-            $this->update_id = $this->id;
-
-
+        if ($stmt->execute() && $result) {
             return true;
         }
 

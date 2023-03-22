@@ -5,8 +5,8 @@ function isValid($id, $model)
     $stmt = $model->getConn()->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    $count = $stmt->rowCount();
-    return $count > 0;
+    $count = $stmt->rowCount() > 0;
+    return $count;
 }
 
 
