@@ -232,8 +232,8 @@ class Quotes
     {
         $query = 'INSERT INTO '
             . $this->table .
-            ' (quote, author_id, category_id)
-			VALUES (:quote, :author_id, :category_id)
+            '(quote, author_id, category_id)
+			VALUES(:quote, :author_id, :category_id)
             RETURNING id, quote, author_id, category_id';
 
         $stmt = $this->conn->prepare($query);
@@ -251,8 +251,8 @@ class Quotes
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id = $row['id'];
             $this->quote = $row['quote'];
-            $this->author_id = $row['author'];
-            $this->category_id = $row['category'];
+            $this->author_id = $row['author_id'];
+            $this->category_id = $row['category_id'];
             return true;
         }
 

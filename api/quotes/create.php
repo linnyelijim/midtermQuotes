@@ -38,8 +38,6 @@ $quotes->quote = $data->quote;
 $quotes->author_id = $data->author_id;
 $quotes->category_id = $data->category_id;
 
-$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
-
 //Validates author exists
 if (!isValid($quotes->author_id, $quotes)) {
     echo json_encode($no_author);
@@ -51,6 +49,8 @@ if (!isValid($quotes->category_id, $quotes)) {
     echo json_encode($no_category);
     exit();
 }
+
+$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 
 //If created, output new quote else output failure statement
 if ($quotes->create()) {
