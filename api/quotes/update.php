@@ -21,12 +21,12 @@ $no_category = ['message' => 'category_id Not Found'];
 $new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 $no_quotes = ['message' => 'No Quotes Found'];
 
-if (!isset($data->id) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
     echo json_encode($no_parameters);
     exit();
 }
 
-$quotes->id = $data->id;
+
 $quotes->quote = $data->quote;
 $quotes->author_id = $data->author_id;
 $quotes->category_id = $data->category_id;

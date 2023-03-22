@@ -10,6 +10,10 @@ class Quotes
     public $category;
     public $author_id;
     public $category_id;
+    public $update_quote;
+    public $update_author;
+    public $update_category;
+    public $update_id;
 
     public function __construct($db)
     {
@@ -268,20 +272,30 @@ class Quotes
 				id = :id';
 
         $stmt = $this->conn->prepare($query);
+
         $this->quote = htmlspecialchars(strip_tags($this->quote));
         $this->author_id = htmlspecialchars(strip_tags($this->author_id));
         $this->category_id = htmlspecialchars(strip_tags($this->category_id));
         $this->id = htmlspecialchars(strip_tags($this->id));
+
         $stmt->bindParam(':quote', $this->quote);
         $stmt->bindParam(':author_id', $this->author_id);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
-        $result = $stmt->rowCount > 0;
+        $new_quote = array('quote' => $this->update_quote, 'author' => $this->update_author, 'category' => $this->update_category, 'id' => $this->update_id);
 
-        if ($stmt->execute() && $result) {
-            return true;
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$row) {
+                return false;
+            }
+            $this->update_quote = $this->quote;
+            $this->update_author = $this->author;
+            $this->update_category = $this->category;
+            $this->update_id = $this->id;
 
+            return json_encode($new_quote);
         }
 
         printf("Error: %s.\n", $stmt->error);
