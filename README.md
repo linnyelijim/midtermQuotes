@@ -1,3 +1,3 @@
 # **Lindsey Jimenez**
 
-## [Replit link:] (https://midtermQuotes.lindseyjimenez.repl.co/api)
+## Replit link: https://midtermQuotes.lindseyjimenez.repl.co/api
