@@ -2,22 +2,28 @@
 class Database
 {
     //Database parameters
-    private $host = 'localhost';
+    /*private $host = 'localhost';
     private $port = '5432';
     private $dbname = 'quotesdb';
     private $username = 'postgres';
     private $password = 'postgres';
+    private $conn;*/
+    private $host;
+    private $port;
+    private $dbname;
+    private $username;
+    private $password;
     private $conn;
 
     //Pulls database env variables
-    /*public function __construct()
+    public function __construct()
     {
-    $this->username = getenv('USERNAME');
-    $this->password = getenv('PASSWORD');
-    $this->dbname = getenv('DBNAME');
-    $this->host = getenv('HOST');
-    $this->port = getenv('PORT');
-    }*/
+        $this->username = getenv('USERNAME');
+        $this->password = getenv('PASSWORD');
+        $this->dbname = getenv('DBNAME');
+        $this->host = getenv('HOST');
+        $this->port = getenv('PORT');
+    }
 
     //Connects to database
     public function connect()
