@@ -23,8 +23,8 @@ $data = json_decode(file_get_contents("php://input"));
 $categories->id = $data->id;
 
 //Messages and array for responses
-$no_parameters = ['message' => 'Missing Required Parameters'];
-$no_category = ['message' => 'category_id Not Found'];
+$no_parameters = array('message' => 'Missing Required Parameters');
+$no_category = array('message' => 'category_id Not Found');
 $deleted_category = array('id' => $categories->id);
 
 //Validate required parameters

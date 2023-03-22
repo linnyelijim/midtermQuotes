@@ -20,9 +20,9 @@ $categories = new Categories($db);
 $data = json_decode(file_get_contents("php://input"));
 
 //Messages and array for responses
-$no_parameters = ['message' => 'Missing Required Parameters'];
+$no_parameters = array('message' => 'Missing Required Parameters');
 $new_category = array('id' => $categories->id, 'category' => $categories->category);
-$not_created = ['message' => 'Category Not Created'];
+$not_created = array('message' => 'Category Not Created');
 
 //Validates required parameters
 if (!isset($data->category)) {

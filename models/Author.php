@@ -1,6 +1,7 @@
 <?php
 class Authors
 {
+    //Database and other variables
     private $conn;
     private $table = 'authors';
 
@@ -14,18 +15,18 @@ class Authors
     {
         $this->conn = $db;
     }
-
+    //Retrieves table for isValid
     public function getTable()
     {
         return $this->table;
     }
-
+    //Retrieves connection for isValid
     public function getConn()
     {
         return $this->conn;
     }
 
-    // Read all authors
+    //Reads all authors
     public function read_authors()
     {
         $query = 'SELECT
@@ -41,8 +42,7 @@ class Authors
         return $stmt;
     }
 
-    // Read single author
-
+    //Reads a single author
     public function read_single()
     {
         $query = 'SELECT
@@ -69,8 +69,7 @@ class Authors
         return false;
     }
 
-    // Create author
-
+    //Creates an author
     public function create()
     {
         $query = 'INSERT INTO '
@@ -87,13 +86,11 @@ class Authors
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row['id'];
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }
 
-    // Update author
-
+    //Updates an author
     public function update()
     {
         $query = 'UPDATE '
@@ -123,14 +120,11 @@ class Authors
 
             return json_encode($new_author);
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
-
     }
 
-    // Delete author
-
+    //Deletes an author
     public function delete()
     {
         $query = 'DELETE FROM '
@@ -139,9 +133,7 @@ class Authors
             RETURNING id';
 
         $stmt = $this->conn->prepare($query);
-
         $this->id = htmlspecialchars(strip_tags($this->id));
-
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
@@ -152,7 +144,6 @@ class Authors
                 return false;
             }
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }

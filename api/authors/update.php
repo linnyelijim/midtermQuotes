@@ -17,19 +17,23 @@ $authors = new Authors($db);
 //Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-$no_parameters = ['message' => 'Missing Required Parameters'];
-$no_author = ['message' => 'author_id Not Found'];
+//Messages and array for response
+$no_parameters = array('message' => 'Missing Required Parameters');
+$no_author = array('message' => 'author_id Not Found');
 $new_author = array('id' => $authors->id, 'author' => $authors->author);
-$not_updated = ['message' => 'Authors Not Updated'];
+$not_updated = array('message' => 'Authors Not Updated');
 
+//Validates required parameters
 if (!isset($data->author)) {
 	echo json_encode($no_parameters);
 	exit();
 }
 
+//Sets id and category accordingly
 $authors->id = $data->id;
 $authors->author = $data->author;
 
+//If update fails ouput no author, else if succeeds output new author, else not updated
 if (!$authors->update()) {
 	echo json_encode($no_author);
 	exit();

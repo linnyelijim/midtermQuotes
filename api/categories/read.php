@@ -1,21 +1,27 @@
 <?php
+//Headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
+//Include files
 include_once '../../config/Database.php';
 include_once '../../models/Category.php';
 
+//Instantiate database and connect
 $database = new Database();
 $db = $database->connect();
 
+//Instantiate category object
 $categories = new Categories($db);
 
+//Declares variables to store categories and count rows
 $result = $categories->read_categories();
-
 $num = $result->rowCount();
 
-$no_category = ['message' => 'category_id Not Found'];
+//Message for response
+$no_category = array('message' => 'category_id Not Found');
 
+//Creates array of categories, ouputs array else no category
 if ($num > 0) {
     $category_arr = array();
 
@@ -26,10 +32,8 @@ if ($num > 0) {
             'id' => $id,
             'category' => $category
         );
-
         array_push($category_arr, $category_item);
     }
-
     echo json_encode($category_arr);
 } else {
     echo json_encode($no_category);

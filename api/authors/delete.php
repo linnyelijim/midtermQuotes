@@ -23,8 +23,8 @@ $data = json_decode(file_get_contents("php://input"));
 $authors->id = $data->id;
 
 //Messages and array for responses
-$no_parameters = ['message' => 'Missing Required Parameters'];
-$no_author = ['message' => 'author_id Not Found'];
+$no_parameters = array('message' => 'Missing Required Parameters');
+$no_author = array('message' => 'author_id Not Found');
 $deleted_author = array('id' => $authors->id);
 
 //Validate required parameters

@@ -18,7 +18,7 @@ $authors = new Authors($db);
 $authors->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 //Message response
-$no_author = ['message' => 'author_id Not Found'];
+$no_author = array('message' => 'author_id Not Found');
 
 //Validates author exists
 if (!isValid($authors->id, $authors)) {

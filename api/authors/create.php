@@ -20,9 +20,9 @@ $authors = new Authors($db);
 $data = json_decode(file_get_contents("php://input"));
 
 //Messages and array for responses
-$no_parameters = ['message' => 'Missing Required Parameters'];
+$no_parameters = array('message' => 'Missing Required Parameters');
 $new_author = array('id' => $authors->id, 'author' => $authors->author);
-$not_created = ['message' => 'Author Not Created'];
+$not_created = array('message' => 'Author Not Created');
 
 //Validates required parameters
 if (!isset($data->author)) {

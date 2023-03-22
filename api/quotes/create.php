@@ -25,13 +25,13 @@ $no_parameters = array('message' => 'Missing Required Parameters');
 $no_author = array('message' => 'author_id Not Found');
 $no_category = array('message' => 'category_id Not Found');
 $not_created = array('message' => 'Quotes Not Created');
+$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 
 //Validates required parameters
 if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
     echo json_encode($no_parameters);
     exit();
 }
-
 
 //Sets quote, author_id, and category_id accordingly
 $quotes->quote = $data->quote;
@@ -50,9 +50,7 @@ if (!isValid($quotes->category_id, $quotes)) {
     exit();
 }
 
-$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
-
-//If created, output new quote else output failure statement
+//If created, output new quote else not created
 if ($quotes->create()) {
     echo json_encode($new_quote);
 } else {

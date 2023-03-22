@@ -18,7 +18,7 @@ $categories = new Categories($db);
 $categories->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 //Message response
-$no_category = ['message' => 'category_id Not Found'];
+$no_category = array('message' => 'category_id Not Found');
 
 //Validates category exists
 if (!isValid($categories->id, $categories)) {

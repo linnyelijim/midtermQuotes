@@ -1,6 +1,7 @@
 <?php
 class Categories
 {
+    //Database and other variables
     private $conn;
     private $table = 'categories';
 
@@ -9,22 +10,23 @@ class Categories
     public $update_category;
     public $update_id;
 
+    //Create a constructor
     public function __construct($db)
     {
         $this->conn = $db;
     }
-
+    //Retrieves table for isValid
     public function getTable()
     {
         return $this->table;
     }
-
+    //Retrieves connection for isValid
     public function getConn()
     {
         return $this->conn;
     }
 
-    // Read all categories
+    //Reads all categories
     public function read_categories()
     {
         $query = 'SELECT
@@ -40,8 +42,7 @@ class Categories
         return $stmt;
     }
 
-    // Read single category
-
+    //Reads a single category
     public function read_single()
     {
         $query = 'SELECT
@@ -68,8 +69,7 @@ class Categories
         return false;
     }
 
-    // Create category
-
+    //Creates a category
     public function create()
     {
         $query = 'INSERT INTO '
@@ -86,13 +86,11 @@ class Categories
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row['id'];
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }
 
-    // Update category
-
+    //Updates a category
     public function update()
     {
         $query = 'UPDATE '
@@ -123,14 +121,11 @@ class Categories
 
             return json_encode($new_category);
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
-
     }
 
-    // Delete category
-
+    //Deletes a category
     public function delete()
     {
         $query = 'DELETE FROM '
@@ -152,7 +147,6 @@ class Categories
                 return false;
             }
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }

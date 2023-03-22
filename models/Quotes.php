@@ -1,6 +1,7 @@
 <?php
 class Quotes
 {
+    //Database and other variables
     private $conn;
     private $table = 'quotes';
 
@@ -15,22 +16,23 @@ class Quotes
     public $update_category;
     public $update_id;
 
+    //Create a constructor
     public function __construct($db)
     {
         $this->conn = $db;
     }
-
+    //Retrieves table for isValid
     public function getTable()
     {
         return $this->table;
     }
-
+    //Retrieves connection for isValid
     public function getConn()
     {
         return $this->conn;
     }
 
-    // Read quotes
+    //Reads all quotes
     public function read_quotes()
     {
         $query = 'SELECT 
@@ -55,8 +57,7 @@ class Quotes
         return $stmt;
     }
 
-    // Read single quote
-
+    //Reads a single quote
     public function read_single()
     {
         if (isset($_GET['id'])) {
@@ -91,8 +92,8 @@ class Quotes
                 $this->author = $row['author'];
                 $this->category = $row['category'];
             }
-
         }
+
         if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
             $query = 'SELECT
 					quotes.id,
@@ -133,13 +134,11 @@ class Quotes
                         'author' => $author,
                         'category' => $category
                     );
-
                     array_push($quotes_arr, $quote_item);
                 }
             }
             return $quotes_arr;
         }
-
 
         if (isset($_GET['author_id'])) {
             $query = 'SELECT
@@ -176,7 +175,6 @@ class Quotes
                         'author' => $author,
                         'category' => $category
                     );
-
                     array_push($quotes_arr, $quote_item);
                 }
             }
@@ -218,7 +216,6 @@ class Quotes
                         'author' => $author,
                         'category' => $category
                     );
-
                     array_push($quotes_arr, $quote_item);
                 }
             }
@@ -226,8 +223,7 @@ class Quotes
         }
     }
 
-    // Create quote
-
+    //Creates a quote
     public function create()
     {
         $query = 'INSERT INTO '
@@ -255,13 +251,11 @@ class Quotes
             $this->category_id = $row['category_id'];
             return true;
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }
 
-    // Update quote
-
+    //Updates a quote
     public function update()
     {
         $query = 'UPDATE '
@@ -285,7 +279,6 @@ class Quotes
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
-
         if ($stmt->execute()) {
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (!$row) {
@@ -296,16 +289,13 @@ class Quotes
             $this->update_category = $this->category;
             $this->update_id = $this->id;
 
-
             return true;
         }
-
         printf("Error: %s.\n", $stmt->error);
         return false;
     }
 
-    // Delete quote
-
+    //Deletes a quote
     public function delete()
     {
         $query = 'DELETE FROM '
@@ -314,9 +304,7 @@ class Quotes
             RETURNING id';
 
         $stmt = $this->conn->prepare($query);
-
         $this->id = htmlspecialchars(strip_tags($this->id));
-
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
@@ -326,11 +314,9 @@ class Quotes
             } else {
                 return false;
             }
-
         }
         printf("Error: %s.\n", $stmt->error);
         return false;
-
     }
 }
 ?>
