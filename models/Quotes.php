@@ -283,7 +283,6 @@ class Quotes
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
-        $new_quote = array('quote' => $this->update_quote, 'author' => $this->update_author, 'category' => $this->update_category, 'id' => $this->update_id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -294,6 +293,8 @@ class Quotes
             $this->update_author = $this->author;
             $this->update_category = $this->category;
             $this->update_id = $this->id;
+
+            $new_quote = array('quote' => $this->update_quote, 'author' => $this->update_author, 'category' => $this->update_category, 'id' => $this->update_id);
 
             return json_encode($new_quote);
         }

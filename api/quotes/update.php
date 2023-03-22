@@ -20,12 +20,12 @@ $no_author = ['message' => 'author_id Not Found'];
 $no_category = ['message' => 'category_id Not Found'];
 $no_quotes = ['message' => 'No Quotes Found'];
 
-if (!isset($_GET['id']) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+if (!isset($data->id) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
     echo json_encode($no_parameters);
     exit();
 }
 
-$quotes->id = $_GET['id'];
+$quotes->id = $data->id;
 $quotes->quote = $data->quote;
 $quotes->author_id = $data->author_id;
 $quotes->category_id = $data->category_id;
@@ -43,10 +43,10 @@ if (!isValid($quotes->category_id, $quotes)) {
     exit();
 }
 
-if (!$quotes->update()) {
-    echo json_encode($no_quotes);
-} else if ($quotes->update()) {
-    echo json_encode($new_quote);
+if ($quotes->update()) {
+    echo json_encode($new_quotes);
+} else if (empty($quotes->quote)) {
+    echo json_encode($no_quote);
 } else {
     echo json_encode($no_quote);
 }

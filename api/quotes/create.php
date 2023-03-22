@@ -27,18 +27,18 @@ $no_category = ['message' => 'category_id Not Found'];
 $not_created = ['message' => 'Quotes Not Created'];
 
 //Validates required parameters
-if (!isset($_GET['id']) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
     echo json_encode($no_parameters);
     exit();
 }
 
-$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 
 //Sets quote, author_id, and category_id accordingly
-$quotes->id = $_GET['id'];
 $quotes->quote = $data->quote;
 $quotes->author_id = $data->author_id;
 $quotes->category_id = $data->category_id;
+
+$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 
 //Validates author exists
 if (!isValid($quotes->author_id, $quotes)) {
