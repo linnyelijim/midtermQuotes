@@ -21,10 +21,10 @@ $quotes = new Quotes($db);
 $data = json_decode(file_get_contents("php://input"));
 
 //Messages and array for responses
-$no_parameters = ['message' => 'Missing Required Parameters'];
-$no_author = ['message' => 'author_id Not Found'];
-$no_category = ['message' => 'category_id Not Found'];
-$not_created = ['message' => 'Quotes Not Created'];
+$no_parameters = array('message' => 'Missing Required Parameters');
+$no_author = array('message' => 'author_id Not Found');
+$no_category = array('message' => 'category_id Not Found');
+$not_created = array('message' => 'Quotes Not Created');
 
 //Validates required parameters
 if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {

@@ -286,6 +286,16 @@ class Quotes
         $result = $stmt->rowCount() > 0;
 
         if ($stmt->execute() && $result) {
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!$row) {
+                return false;
+            }
+            $this->update_quote = $this->quote;
+            $this->update_author = $this->author;
+            $this->update_category = $this->category;
+            $this->update_id = $this->id;
+
+
             return true;
         }
 
