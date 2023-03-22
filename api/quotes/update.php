@@ -18,18 +18,20 @@ $data = json_decode(file_get_contents("php://input"));
 $no_parameters = ['message' => 'Missing Required Parameters'];
 $no_author = ['message' => 'author_id Not Found'];
 $no_category = ['message' => 'category_id Not Found'];
-$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
 $no_quotes = ['message' => 'No Quotes Found'];
 
-if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+if (!isset($_GET['id']) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
     echo json_encode($no_parameters);
     exit();
 }
 
-
+$quotes->id = $_GET['id'];
 $quotes->quote = $data->quote;
 $quotes->author_id = $data->author_id;
 $quotes->category_id = $data->category_id;
+
+$new_quote = array('id' => $quotes->id, 'quote' => $quotes->quote, 'author_id' => $quotes->author_id, 'category_id' => $quotes->category_id);
+
 
 if (!isValid($quotes->author_id, $quotes)) {
     echo json_encode($no_author);
@@ -41,9 +43,11 @@ if (!isValid($quotes->category_id, $quotes)) {
     exit();
 }
 
-if ($quotes->update()) {
+if (!$quotes->update()) {
+    echo json_encode($no_quotes);
+} else if ($quotes->update()) {
     echo json_encode($new_quote);
 } else {
-    echo json_encode($no_quotes);
+    echo json_encode($no_quote);
 }
 ?>

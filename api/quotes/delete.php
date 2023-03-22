@@ -22,16 +22,17 @@ $data = json_decode(file_get_contents("php://input"));
 //Set id accordingly
 $quotes->id = $data->id;
 
-//Messages and array for responses
+//Messages responses
 $no_parameters = ['message' => 'Missing Required Parameters'];
 $no_quotes = ['message' => 'No Quotes Found'];
-$deleted_quote = array('id' => $quotes->id);
 
 //Validate required parameters
 if (!isset($data->id)) {
     echo json_encode($no_parameters);
     exit();
 }
+
+$deleted_quote = array('id' => $quotes->id);
 
 //If delete fails, no category else return deleted category id
 if (!$quotes->delete()) {
